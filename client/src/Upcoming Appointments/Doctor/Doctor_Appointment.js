@@ -29,7 +29,7 @@ export default function Doctor_Appointments(){
         const data={
            id:id
         }
-        axios.post("http://localhost:5000/treated",data,{
+        axios.post(`${API_LINK}/treated`,data,{
             headers:{
                 'x-token':token
             }
