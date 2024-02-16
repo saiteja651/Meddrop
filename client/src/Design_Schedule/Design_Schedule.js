@@ -3,8 +3,6 @@ import Doc_Nav from "../Navbar/Doc_Nav";
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
-import API_LINK from "../api.link"
-
 export default function Design_Schedule() {
     const [selectedTimeRange, setSelectedTimeRange] = useState('');
     const [date, setDate] = useState();
@@ -12,7 +10,7 @@ export default function Design_Schedule() {
         date: date,
         freehours: selectedTimeRange
     }
-    const tok = localStorage.getItem("");
+    const tok = localStorage.getItem("doctor");
     const ans = tok.slice(1);
     const token = ans.slice(0, ans.length - 1);
     const [schedule, setSchedule] = useState([])
@@ -20,7 +18,7 @@ export default function Design_Schedule() {
         console.log(data)
         setSelectedTimeRange('');
         setDate('')
-        axios.post(`${API_LINK}/design_schedule`, data, {
+        axios.post("http://localhost:5000/design_schedule", data, {
             headers: {
                 'x-token': token
             }
@@ -30,7 +28,7 @@ export default function Design_Schedule() {
 
     }
     useEffect(() => {
-        axios.get(`${API_LINK}/get_schedule`, {
+        axios.get("http://localhost:5000/get_schedule", {
             headers: {
                 'x-token': token
             }
@@ -58,7 +56,7 @@ export default function Design_Schedule() {
         const data={
             _id:_id
         }
-        axios.post(`${API_LINK}/del_schedule`,data,{
+        axios.post("http://localhost:5000/del_schedule",data,{
             headers:{
                 "x-token":token
             }
