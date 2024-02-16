@@ -3,6 +3,7 @@ import Doc_Nav from "../Navbar/Doc_Nav";
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
+import apiLink from "../api.link";
 export default function Design_Schedule() {
     const [selectedTimeRange, setSelectedTimeRange] = useState('');
     const [date, setDate] = useState();
@@ -18,7 +19,7 @@ export default function Design_Schedule() {
         console.log(data)
         setSelectedTimeRange('');
         setDate('')
-        axios.post("http://localhost:5000/design_schedule", data, {
+        axios.post(`${apiLink}/design_schedule`, data, {
             headers: {
                 'x-token': token
             }
@@ -28,7 +29,7 @@ export default function Design_Schedule() {
 
     }
     useEffect(() => {
-        axios.get("http://localhost:5000/get_schedule", {
+        axios.get(`${apiLink}/get_schedule`, {
             headers: {
                 'x-token': token
             }
@@ -56,7 +57,7 @@ export default function Design_Schedule() {
         const data={
             _id:_id
         }
-        axios.post("http://localhost:5000/del_schedule",data,{
+        axios.post(`${apiLink}/del_schedule`,data,{
             headers:{
                 "x-token":token
             }
