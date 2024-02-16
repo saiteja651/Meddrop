@@ -1,0 +1,30 @@
+/* Profile.css */
+
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.profile-content {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 2 2 10px rgba(0, 0, 0, 0.1);
+    width: 700px;
+    max-width: 80%;
+}
+
+.profile-heading {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.profile-details {
+    color: rgb(129, 150, 129);
+}
+
+.loading-message {
+    color: #555;
+}

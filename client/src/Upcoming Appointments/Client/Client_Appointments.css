@@ -1,0 +1,24 @@
+table-container .ant-table {
+    border-collapse: collapse; /* Collapse borders between cells */
+    width: 100%; /* Ensure the table takes up 100% width */
+  }
+  
+  /* Custom styles for table cells */
+  .table-container .ant-table td,
+  .table-container .ant-table th {
+    padding: 8px; /* Add padding to cells */
+    border: 2px solid #ddd; /* Add border to cells */
+    text-align: center; /* Center align content within cells */
+  }
+  
+  /* Custom styles for table header */
+  .table-container .ant-table th {
+    background-color: #f2f2f2; /* Add background color to header cells */
+    font-weight: bold; /* Make header text bold */
+  }
+  
+  /* Custom styles for table body */
+  .table-container .ant-table-tbody tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Alternate row background color */
+  }
+  
