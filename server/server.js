@@ -91,19 +91,19 @@ const payments=db.collection("payments")
 const doctor_reviews=db.collection("doctor_reviews");
 const userRouter=require("./routes/users")
 const chat_id=db.collection("chat_id")
-app.use("/",userRouter);
-// app.post("/cus_up", async (req, res) => {
-//     const { name, email, pass,photo} = req.body;
-//     let exist = await cus_reg.findOne({ email: email })
-//     if (exist) {
-//         res.send("user exist")
-//     }
-//     else {
-//         await cus_reg.insertOne({ name, email, pass,photo });
-//         res.send("data added")
-//     }
 
-// });
+app.post("/cus_up", async (req, res) => {
+    const { name, email, pass,photo} = req.body;
+    let exist = await cus_reg.findOne({ email: email })
+    if (exist) {
+        res.send("user exist")
+    }
+    else {
+        await cus_reg.insertOne({ name, email, pass,photo });
+        res.send("data added")
+    }
+
+});
 app.post("/cus_in", async (req, res) => {
     const { email, pass } = req.body;
     let exist = await cus_reg.findOne({ email: email });
@@ -134,24 +134,35 @@ app.get("/cus_profile", middleware, async (req, res) => {
     try {
         let exist = await cus_reg.findOne({_id :new ObjectId(req.user.id)});
         if (exist) {
-            res.send(exist);
+            res.status(200).send(exist);
         } else {
             res.status(404).send("User not found");
         }
     } catch (error) {
-        console.error("Error fetching customer profile:", error);
+    
+        // console.error("Error fetching customer profile:", error);
         res.status(500).send("Internal Server Error");
     }
 });
 
 app.post("/customer_requests", middleware, async (req, res) => {
-    const { specialization, date, description } = req.body;
+    try{
+        const { specialization, date, description } = req.body;
     await customer_requests.insertOne({ specialization, date, description })
-    res.send("request receieved")
+    res.send("request received")
+    }
+    catch(error){
+        console.log(error)
+        res.status(5000).send("Internal Server Error")
+    }
+    
 })
 app.get("/client_appointments",middleware,async(req,res)=>{
-   let exist=await client_appointments.find({client_id:new ObjectId(req.user.id)}).toArray();
-   res.send(exist)
+    
+    console.log(req.user.id)
+   let exist = await client_appointments.find({client_id:new ObjectId(req.user.id)}).toArray();
+   console.log("exist",exist)
+   res.status(200).send(exist)
 })
 
 
@@ -160,15 +171,6 @@ app.get("/client_appointments",middleware,async(req,res)=>{
 
 
 app.post("/doc_signup", async (req, res) => {
-    // const { name, email, pass,photo,specialization } = req.body;
-    // let exist = await doc_reg.findOne({ email: email })
-    // if (exist) {
-    //     res.send("user exists")
-    // }
-    // else {
-    //     await doc_reg.insertOne({ name, email, pass, photo,specialization});
-    //     res.send("data added")
-    // }
     
         const { name, email, pass, photo, specialization } = req.body;
         
@@ -213,22 +215,50 @@ app.post("/doc_login", async (req, res) => {
 
 
 app.get("/doctor_profile", middleware, async (req, res) => {
+    try{
     let exist = await doc_reg.findOne({_id:new ObjectId(req.user.id) });
-    res.send(exist);
+    if(exist){
+    res.status(200).send(exist);
+    }
+    else{
+        res.status(404).send("User not found")
+    }
+}
+catch(err){
+    res.status(500).send("Internal Server Error")
+}
 })
 app.post("/design_schedule",middleware,async(req,res)=>{
+   
+    try{
     const {date,freehours}=req.body;
     await design_schedule.insertOne({date,freehours,doctor_id:new ObjectId(req.user.id)})
     res.send("data added")
+    }
+    catch(err){
+        res.status(500).send("Internal Server Error")
+}
 })
 app.get("/get_schedule",middleware,async(req,res)=>{
-    let exist=await design_schedule.find({doctor_id:new ObjectId(req.user.id)}).toArray();
+    try{
+        let exist=await design_schedule.find({doctor_id:new ObjectId(req.user.id)}).toArray();
     res.send(exist)
+    }
+    catch(err){
+        res.status(500).send("Internal Server Error")
+    }
+    
 })
 app.post("/del_schedule",middleware,async(req,res)=>{
-    const {_id}=req.body
-    await design_schedule.findOneAndDelete({_id:new ObjectId(_id)});
-    res.send("record deleted")
+    try{
+        const {_id}=req.body
+        await design_schedule.findOneAndDelete({_id:new ObjectId(_id)});
+        res.send("record deleted")
+    }
+    catch(err){
+        res.status(500).send("Internal Server Error");
+    }
+   
 })
 app.post("/find_doctors", middleware, async (req, res) => {
     // const { spec } = req.body;
@@ -373,7 +403,7 @@ app.get("/for_doctors_reviews",middleware,async(req,res)=>{
 })  
 app.get("/doctor_rating_avg",middleware,async(req,res)=>{
     let exist = await doctor_reviews.find({doctor_id:new ObjectId(req.user.id)},{projection:{rating:1,_id:0}}).toArray();
-    res.send(exist)
+    await res.send(exist)
 })
 
 app.post("/doctor_rating_avg",middleware,async(req,res)=>{
@@ -501,4 +531,5 @@ app.get("/comp_doctor_app",middleware,async(req,res)=>{
 app.use((req, res) => {
     res.sendFile(`${__dirname}/public/index.html`)
 })
-module.exports=app
+module.exports={app,doc_reg,jwt,cus_reg,customer_requests,client_appointments,design_schedule,doctor_appointments,compl_client_appointments
+,doctor_reviews}

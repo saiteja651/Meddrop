@@ -13,6 +13,7 @@ const cusSignup = async(req, res) =>{
     let exist = await cus_reg.findOne({ email: email })
     console.log(exist)
     if (exist) {
+        console.log("gg")
         res.send("user exist")
     }
     else {
