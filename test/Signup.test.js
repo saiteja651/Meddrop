@@ -74,8 +74,6 @@ describe('POST /doc_signup', () => {
 
         expect(response.status).to.equal(409);
         expect(response.text).to.equal('user exists');
-        // sinon.assert.calledOnce(findOneStub);
-        // sinon.assert.calledWith(findOneStub, { email: userData.email });
-        // sinon.assert.notCalled(insertOneStub); // insertOne should not be called
+       
     });
 });

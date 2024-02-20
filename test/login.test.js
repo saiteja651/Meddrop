@@ -48,11 +48,7 @@ describe('POST /cus_in', () => {
             .send(userData);
 
         expect(response.status).to.equal(200);
-        // expect(response.body).to.be.a('string'); // Assuming the response body is a JWT token
-        // You may want to assert more about the token format or contents
-
-        // sinon.assert.calledOnce(findOneStub);
-        // sinon.assert.calledWith(findOneStub, { email: userData.email });
+        
     });
 
     it('should return "wrong password" when user exists but password is incorrect', async () => {
@@ -72,10 +68,7 @@ describe('POST /cus_in', () => {
             .send(userData);
 
         expect(response.status).to.equal(200); // Assuming status is always 200 even for wrong password
-        // expect(response.text).to.equal('wrong password');
-
-        // sinon.assert.calledOnce(findOneStub);
-        // sinon.assert.calledWith(findOneStub, { email: userData.email });
+       
     });
 
     it('should return "user doesnt exist create new account" when user does not exist', async () => {

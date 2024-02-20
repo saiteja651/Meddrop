@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "mocha test/**/*.test.js"
+    "test": "nyc mocha test/**/*.test.js"
   },
   "dependencies": {
     "alert": "^6.0.1",
@@ -16,6 +16,7 @@
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.9",
     "nodemon": "^3.0.3",
+    "nyc": "^15.1.0",
     "razorpay": "^2.9.2",
     "sinon": "^17.0.1",
     "socket.io": "^4.7.4",
